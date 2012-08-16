@@ -1,8 +1,8 @@
 package Cosm;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.json.JSONArray;
 
 public class Apikey {
 	private String label;
@@ -12,7 +12,7 @@ public class Apikey {
 	private String apikey;
 	
 	public String getApikey() {
-		return apikey;
+		return this.apikey;
 	}
 
 	public void setApikey(String apikey) {
@@ -20,7 +20,7 @@ public class Apikey {
 	}
 
 	public String getExpiresAt() {
-		return expiresAt;
+		return this.expiresAt;
 	}
 
 	public void setExpiresAt(String expiresAt) {
@@ -28,23 +28,23 @@ public class Apikey {
 	}
 
 	public Apikey() {
-		permissions = new Permission[0];
+		this.permissions = new Permission[0];
 	}
 	
 	public String getLabel() {
-		return label;
+		return this.label;
 	}
 	public void setLabel(String label) {
 		this.label = label;
 	}
 	public Boolean getPrivateAccess() {
-		return privateAccess;
+		return this.privateAccess;
 	}
 	public void setPrivateAccess(Boolean privateAccess) {
 		this.privateAccess = privateAccess;
 	}
 	public Permission[] getPermissions() {
-		return permissions;
+		return this.permissions;
 	}
 	public void setPermissions(Permission[] permissions) {
 		this.permissions = permissions;
@@ -53,23 +53,23 @@ public class Apikey {
 	JSONObject toJSONObject() throws JSONException {
 		JSONObject jo = new JSONObject();
 		
-		if ( label != null ) {
+		if ( this.label != null ) {
 			jo.put("label",this.label);
 		} else {
 			throw new JSONException("required element label is null ");
 		}
 		
-		if ( expiresAt != null ) {
-			jo.put("expiresAt",expiresAt);
+		if ( this.expiresAt != null ) {
+			jo.put("expiresAt",this.expiresAt);
 		}
 		
-		if ( privateAccess != null ) {
-			jo.put("private_access", privateAccess.toString());
+		if ( this.privateAccess != null ) {
+			jo.put("private_access", this.privateAccess.toString());
 		}
 		
 		JSONArray ja = new JSONArray();
-		for(int i=0;(i<permissions.length);i++) {
-			ja.put(permissions[i].toJSONObject());
+		for(int i=0;(i<this.permissions.length);i++) {
+			ja.put(this.permissions[i].toJSONObject());
 		}
 		jo.put("permissions", ja);
 		

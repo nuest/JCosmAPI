@@ -427,7 +427,7 @@ public class Base64
      * in which case one of them will be picked, though there is
      * no guarantee as to which one will be picked.
      */
-    private final static byte[] getDecodabet( int options ) {
+    protected final static byte[] getDecodabet( int options ) {
         if( (options & URL_SAFE) == URL_SAFE) {
             return _URL_SAFE_DECODABET;
         } else if ((options & ORDERED) == ORDERED) {
@@ -463,7 +463,7 @@ public class Base64
      * @return four byte array in Base64 notation.
      * @since 1.5.1
      */
-    private static byte[] encode3to4( byte[] b4, byte[] threeBytes, int numSigBytes, int options ) {
+    protected static byte[] encode3to4( byte[] b4, byte[] threeBytes, int numSigBytes, int options ) {
         encode3to4( threeBytes, 0, numSigBytes, b4, 0, options );
         return b4;
     }   // end encode3to4
@@ -492,7 +492,7 @@ public class Base64
      * @return the <var>destination</var> array
      * @since 1.3
      */
-    private static byte[] encode3to4( 
+    protected static byte[] encode3to4( 
     byte[] source, int srcOffset, int numSigBytes,
     byte[] destination, int destOffset, int options ) {
         
@@ -683,10 +683,10 @@ public class Base64
             throw e;
         }   // end catch
         finally {
-            try{ oos.close();   } catch( Exception e ){}
-            try{ gzos.close();  } catch( Exception e ){}
-            try{ b64os.close(); } catch( Exception e ){}
-            try{ baos.close();  } catch( Exception e ){}
+            try{ if(oos != null) oos.close();   } catch( Exception e ){}
+            try{ if(gzos != null) gzos.close();  } catch( Exception e ){}
+            try{ if(b64os != null) b64os.close(); } catch( Exception e ){}
+            try{ if(baos != null) baos.close();  } catch( Exception e ){}
         }   // end finally
         
         // Return value according to relevant encoding.
@@ -899,7 +899,7 @@ public class Base64
 
         if( off + len > source.length  ){
             throw new IllegalArgumentException(
-            String.format( "Cannot have offset of %d and length of %d with array of length %d", off,len,source.length));
+            String.format( "Cannot have offset of %d and length of %d with array of length %d", Integer.valueOf(off),Integer.valueOf(len),Integer.valueOf(source.length)));
         }   // end if: off < 0
 
 
@@ -925,70 +925,65 @@ public class Base64
                 throw e;
             }   // end catch
             finally {
-                try{ gzos.close();  } catch( Exception e ){}
-                try{ b64os.close(); } catch( Exception e ){}
-                try{ baos.close();  } catch( Exception e ){}
+                try{ if(gzos != null) gzos.close();  } catch( Exception e ){}
+                try{ if(b64os != null) b64os.close(); } catch( Exception e ){}
+                try{ if(baos !=null) baos.close();  } catch( Exception e ){}
             }   // end finally
 
             return baos.toByteArray();
         }   // end if: compress
-
-        // Else, don't compress. Better not to use streams at all then.
-        else {
-            boolean breakLines = (options & DO_BREAK_LINES) != 0;
-
-            //int    len43   = len * 4 / 3;
-            //byte[] outBuff = new byte[   ( len43 )                      // Main 4:3
-            //                           + ( (len % 3) > 0 ? 4 : 0 )      // Account for padding
-            //                           + (breakLines ? ( len43 / MAX_LINE_LENGTH ) : 0) ]; // New lines
-            // Try to determine more precisely how big the array needs to be.
-            // If we get it right, we don't have to do an array copy, and
-            // we save a bunch of memory.
-            int encLen = ( len / 3 ) * 4 + ( len % 3 > 0 ? 4 : 0 ); // Bytes needed for actual encoding
-            if( breakLines ){
-                encLen += encLen / MAX_LINE_LENGTH; // Plus extra newline characters
-            }
-            byte[] outBuff = new byte[ encLen ];
-
-
-            int d = 0;
-            int e = 0;
-            int len2 = len - 2;
-            int lineLength = 0;
-            for( ; d < len2; d+=3, e+=4 ) {
-                encode3to4( source, d+off, 3, outBuff, e, options );
-
-                lineLength += 4;
-                if( breakLines && lineLength >= MAX_LINE_LENGTH )
-                {
-                    outBuff[e+4] = NEW_LINE;
-                    e++;
-                    lineLength = 0;
-                }   // end if: end of line
-            }   // en dfor: each piece of array
-
-            if( d < len ) {
-                encode3to4( source, d+off, len - d, outBuff, e, options );
-                e += 4;
-            }   // end if: some padding needed
-
-
-            // Only resize array if we didn't guess it right.
-            if( e <= outBuff.length - 1 ){
-                // If breaking lines and the last byte falls right at
-                // the line length (76 bytes per line), there will be
-                // one extra byte, and the array will need to be resized.
-                // Not too bad of an estimate on array size, I'd say.
-                byte[] finalOut = new byte[e];
-                System.arraycopy(outBuff,0, finalOut,0,e);
-                //System.err.println("Having to resize array from " + outBuff.length + " to " + e );
-                return finalOut;
-            } else {
-                //System.err.println("No need to resize array.");
-                return outBuff;
-            }
         
-        }   // end else: don't compress
+        boolean breakLines = (options & DO_BREAK_LINES) != 0;
+
+        //int    len43   = len * 4 / 3;
+        //byte[] outBuff = new byte[   ( len43 )                      // Main 4:3
+        //                           + ( (len % 3) > 0 ? 4 : 0 )      // Account for padding
+        //                           + (breakLines ? ( len43 / MAX_LINE_LENGTH ) : 0) ]; // New lines
+        // Try to determine more precisely how big the array needs to be.
+        // If we get it right, we don't have to do an array copy, and
+        // we save a bunch of memory.
+        int encLen = ( len / 3 ) * 4 + ( len % 3 > 0 ? 4 : 0 ); // Bytes needed for actual encoding
+        if( breakLines ){
+            encLen += encLen / MAX_LINE_LENGTH; // Plus extra newline characters
+        }
+        byte[] outBuff = new byte[ encLen ];
+
+
+        int d = 0;
+        int e = 0;
+        int len2 = len - 2;
+        int lineLength = 0;
+        for( ; d < len2; d+=3, e+=4 ) {
+            encode3to4( source, d+off, 3, outBuff, e, options );
+
+            lineLength += 4;
+            if( breakLines && lineLength >= MAX_LINE_LENGTH )
+            {
+                outBuff[e+4] = NEW_LINE;
+                e++;
+                lineLength = 0;
+            }   // end if: end of line
+        }   // en dfor: each piece of array
+
+        if( d < len ) {
+            encode3to4( source, d+off, len - d, outBuff, e, options );
+            e += 4;
+        }   // end if: some padding needed
+
+
+        // Only resize array if we didn't guess it right.
+        if( e <= outBuff.length - 1 ){
+            // If breaking lines and the last byte falls right at
+            // the line length (76 bytes per line), there will be
+            // one extra byte, and the array will need to be resized.
+            // Not too bad of an estimate on array size, I'd say.
+            byte[] finalOut = new byte[e];
+            System.arraycopy(outBuff,0, finalOut,0,e);
+            //System.err.println("Having to resize array from " + outBuff.length + " to " + e );
+            return finalOut;
+        }
+        //System.err.println("No need to resize array.");
+        return outBuff;
 
     }   // end encodeBytesToBytes
     
@@ -1027,7 +1022,7 @@ public class Base64
      *         or there is not enough room in the array.
      * @since 1.3
      */
-    private static int decode4to3( 
+    protected static int decode4to3( 
     byte[] source, int srcOffset, 
     byte[] destination, int destOffset, int options ) {
         
@@ -1040,11 +1035,11 @@ public class Base64
         }   // end if
         if( srcOffset < 0 || srcOffset + 3 >= source.length ){
             throw new IllegalArgumentException( String.format(
-            "Source array with length %d cannot have offset of %d and still process four bytes.", source.length, srcOffset ) );
+            "Source array with length %d cannot have offset of %d and still process four bytes.", Integer.valueOf(source.length), Integer.valueOf(srcOffset) ) );
         }   // end if
         if( destOffset < 0 || destOffset +2 >= destination.length ){
             throw new IllegalArgumentException( String.format(
-            "Destination array with length %d cannot have offset of %d and still store three bytes.", destination.length, destOffset ) );
+            "Destination array with length %d cannot have offset of %d and still store three bytes.", Integer.valueOf(destination.length), Integer.valueOf(destOffset) ) );
         }   // end if
         
         
@@ -1154,7 +1149,7 @@ public class Base64
         }   // end if
         if( off < 0 || off + len > source.length ){
             throw new IllegalArgumentException( String.format(
-            "Source array with length %d cannot have offset of %d and process %d bytes.", source.length, off, len ) );
+            "Source array with length %d cannot have offset of %d and process %d bytes.", Integer.valueOf(source.length), Integer.valueOf(off), Integer.valueOf(len) ) );
         }   // end if
         
         if( len == 0 ){
@@ -1199,7 +1194,7 @@ public class Base64
             else {
                 // There's a bad input character in the Base64 stream.
                 throw new java.io.IOException( String.format(
-                "Bad Base64 input character decimal %d in array position %d", ((int)source[i])&0xFF, i ) );
+                "Bad Base64 input character decimal %d in array position %d", Integer.valueOf((source[i])&0xFF), i ) );
             }   // end else: 
         }   // each input character
                                    
@@ -1260,7 +1255,7 @@ public class Base64
         boolean dontGunzip = (options & DONT_GUNZIP) != 0;
         if( (bytes != null) && (bytes.length >= 4) && (!dontGunzip) ) {
             
-            int head = ((int)bytes[0] & 0xff) | ((bytes[1] << 8) & 0xff00);
+            int head = (bytes[0] & 0xff) | ((bytes[1] << 8) & 0xff00);
             if( java.util.zip.GZIPInputStream.GZIP_MAGIC == head )  {
                 java.io.ByteArrayInputStream  bais = null;
                 java.util.zip.GZIPInputStream gzis = null;
@@ -1286,9 +1281,9 @@ public class Base64
                     // Just return originally-decoded bytes
                 }   // end catch
                 finally {
-                    try{ baos.close(); } catch( Exception e ){}
-                    try{ gzis.close(); } catch( Exception e ){}
-                    try{ bais.close(); } catch( Exception e ){}
+                    try{ if(baos != null) baos.close(); } catch( Exception e ){}
+                    try{ if(gzis != null) gzis.close(); } catch( Exception e ){}
+                    try{ if(bais != null) bais.close(); } catch( Exception e ){}
                 }   // end finally
 
             }   // end if: gzipped
@@ -1362,9 +1357,8 @@ public class Base64
                         Class c = Class.forName(streamClass.getName(), false, loader);
                         if( c == null ){
                             return super.resolveClass(streamClass);
-                        } else {
-                            return c;   // Class loader knows of this class.
-                        }   // end else: not null
+                        }
+                        return c;   // Class loader knows of this class.
                     }   // end resolveClass
                 };  // end ois
             }   // end else: no custom class loader
@@ -1378,8 +1372,8 @@ public class Base64
             throw e;    // Catch and throw in order to execute finally{}
         }   // end catch
         finally {
-            try{ bais.close(); } catch( Exception e ){}
-            try{ ois.close();  } catch( Exception e ){}
+            try{ if(bais != null) bais.close(); } catch( Exception e ){}
+            try{ if(ois != null) ois.close();  } catch( Exception e ){}
         }   // end finally
         
         return obj;
@@ -1418,7 +1412,7 @@ public class Base64
             throw e; // Catch and throw to execute finally{} block
         }   // end catch: java.io.IOException
         finally {
-            try{ bos.close(); } catch( Exception e ){}
+            try{ if(bos != null) bos.close(); } catch( Exception e ){}
         }   // end finally
         
     }   // end encodeToFile
@@ -1511,7 +1505,7 @@ public class Base64
             throw e; // Catch and release to execute finally{}
         }   // end catch: java.io.IOException
         finally {
-            try{ bis.close(); } catch( Exception e) {}
+            try{ if(bis != null) bis.close(); } catch( Exception e) {}
         }   // end finally
         
         return decodedData;
@@ -1564,7 +1558,7 @@ public class Base64
             throw e; // Catch and release to execute finally{}
         }   // end catch: java.io.IOException
         finally {
-            try{ bis.close(); } catch( Exception e) {}
+            try{ if(bis != null) bis.close(); } catch( Exception e) {}
         }   // end finally
         
         return encodedData;
@@ -1592,7 +1586,7 @@ public class Base64
             throw e; // Catch and release to execute finally{}
         }   // end catch
         finally {
-            try { out.close(); }
+            try { if(out != null) out.close(); }
             catch( Exception ex ){}
         }   // end finally    
     }   // end encodeFileToFile
@@ -1620,7 +1614,7 @@ public class Base64
             throw e; // Catch and release to execute finally{}
         }   // end catch
         finally {
-            try { out.close(); }
+            try { if(out != null) out.close(); }
             catch( Exception ex ){}
         }   // end finally    
     }   // end decodeFileToFile
@@ -1688,8 +1682,8 @@ public class Base64
             this.options      = options; // Record for later
             this.breakLines   = (options & DO_BREAK_LINES) > 0;
             this.encode       = (options & ENCODE) > 0;
-            this.bufferLength = encode ? 4 : 3;
-            this.buffer       = new byte[ bufferLength ];
+            this.bufferLength = this.encode ? 4 : 3;
+            this.buffer       = new byte[ this.bufferLength ];
             this.position     = -1;
             this.lineLength   = 0;
             this.decodabet    = getDecodabet(options);
@@ -1706,12 +1700,12 @@ public class Base64
         public int read() throws java.io.IOException  {
             
             // Do we need to get data?
-            if( position < 0 ) {
-                if( encode ) {
+            if( this.position < 0 ) {
+                if( this.encode ) {
                     byte[] b3 = new byte[3];
                     int numBinaryBytes = 0;
                     for( int i = 0; i < 3; i++ ) {
-                        int b = in.read();
+                        int b = this.in.read();
 
                         // If end of stream, b is -1.
                         if( b >= 0 ) {
@@ -1724,9 +1718,9 @@ public class Base64
                     }   // end for: each needed input byte
                     
                     if( numBinaryBytes > 0 ) {
-                        encode3to4( b3, 0, numBinaryBytes, buffer, 0, options );
-                        position = 0;
-                        numSigBytes = 4;
+                        encode3to4( b3, 0, numBinaryBytes, this.buffer, 0, this.options );
+                        this.position = 0;
+                        this.numSigBytes = 4;
                     }   // end if: got data
                     else {
                         return -1;  // Must be end of stream
@@ -1740,8 +1734,8 @@ public class Base64
                     for( i = 0; i < 4; i++ ) {
                         // Read four "meaningful" bytes:
                         int b = 0;
-                        do{ b = in.read(); }
-                        while( b >= 0 && decodabet[ b & 0x7f ] <= WHITE_SPACE_ENC );
+                        do{ b = this.in.read(); }
+                        while( b >= 0 && this.decodabet[ b & 0x7f ] <= WHITE_SPACE_ENC );
                         
                         if( b < 0 ) {
                             break; // Reads a -1 if end of stream
@@ -1751,8 +1745,8 @@ public class Base64
                     }   // end for: each needed input byte
                     
                     if( i == 4 ) {
-                        numSigBytes = decode4to3( b4, 0, buffer, 0, options );
-                        position = 0;
+                        this.numSigBytes = decode4to3( b4, 0, this.buffer, 0, this.options );
+                        this.position = 0;
                     }   // end if: got four characters
                     else if( i == 0 ){
                         return -1;
@@ -1766,36 +1760,30 @@ public class Base64
             }   // end else: get data
             
             // Got data?
-            if( position >= 0 ) {
+            if( this.position >= 0 ) {
                 // End of relevant data?
-                if( /*!encode &&*/ position >= numSigBytes ){
+                if( /*!encode &&*/ this.position >= this.numSigBytes ){
                     return -1;
                 }   // end if: got data
                 
-                if( encode && breakLines && lineLength >= MAX_LINE_LENGTH ) {
-                    lineLength = 0;
+                if( this.encode && this.breakLines && this.lineLength >= MAX_LINE_LENGTH ) {
+                    this.lineLength = 0;
                     return '\n';
                 }   // end if
-                else {
-                    lineLength++;   // This isn't important when decoding
-                                    // but throwing an extra "if" seems
-                                    // just as wasteful.
-                    
-                    int b = buffer[ position++ ];
+                this.lineLength++;   // This isn't important when decoding
+                                // but throwing an extra "if" seems
+                                // just as wasteful.
+                
+                int b = this.buffer[ this.position++ ];
 
-                    if( position >= bufferLength ) {
-                        position = -1;
-                    }   // end if: end
+                if( this.position >= this.bufferLength ) {
+                    this.position = -1;
+                }   // end if: end
 
-                    return b & 0xFF; // This is how you "cast" a byte that's
-                                     // intended to be unsigned.
-                }   // end else
+                return b & 0xFF; // This is how you "cast" a byte that's
+                                 // intended to be unsigned.
             }   // end if: position >= 0
-            
-            // Else error
-            else {
-                throw new java.io.IOException( "Error in Base64 code reading stream." );
-            }   // end else
+            throw new java.io.IOException( "Error in Base64 code reading stream." );
         }   // end read
         
         
@@ -1898,8 +1886,8 @@ public class Base64
             super( out );
             this.breakLines   = (options & DO_BREAK_LINES) != 0;
             this.encode       = (options & ENCODE) != 0;
-            this.bufferLength = encode ? 3 : 4;
-            this.buffer       = new byte[ bufferLength ];
+            this.bufferLength = this.encode ? 3 : 4;
+            this.buffer       = new byte[ this.bufferLength ];
             this.position     = 0;
             this.lineLength   = 0;
             this.suspendEncoding = false;
@@ -1925,41 +1913,41 @@ public class Base64
         public void write(int theByte) 
         throws java.io.IOException {
             // Encoding suspended?
-            if( suspendEncoding ) {
+            if( this.suspendEncoding ) {
                 this.out.write( theByte );
                 return;
             }   // end if: supsended
             
             // Encode?
-            if( encode ) {
-                buffer[ position++ ] = (byte)theByte;
-                if( position >= bufferLength ) { // Enough to encode.
+            if( this.encode ) {
+                this.buffer[ this.position++ ] = (byte)theByte;
+                if( this.position >= this.bufferLength ) { // Enough to encode.
                 
-                    this.out.write( encode3to4( b4, buffer, bufferLength, options ) );
+                    this.out.write( encode3to4( this.b4, this.buffer, this.bufferLength, this.options ) );
 
-                    lineLength += 4;
-                    if( breakLines && lineLength >= MAX_LINE_LENGTH ) {
+                    this.lineLength += 4;
+                    if( this.breakLines && this.lineLength >= MAX_LINE_LENGTH ) {
                         this.out.write( NEW_LINE );
-                        lineLength = 0;
+                        this.lineLength = 0;
                     }   // end if: end of line
 
-                    position = 0;
+                    this.position = 0;
                 }   // end if: enough to output
             }   // end if: encoding
 
             // Else, Decoding
             else {
                 // Meaningful Base64 character?
-                if( decodabet[ theByte & 0x7f ] > WHITE_SPACE_ENC ) {
-                    buffer[ position++ ] = (byte)theByte;
-                    if( position >= bufferLength ) { // Enough to output.
+                if( this.decodabet[ theByte & 0x7f ] > WHITE_SPACE_ENC ) {
+                    this.buffer[ this.position++ ] = (byte)theByte;
+                    if( this.position >= this.bufferLength ) { // Enough to output.
                     
-                        int len = Base64.decode4to3( buffer, 0, b4, 0, options );
-                        out.write( b4, 0, len );
-                        position = 0;
+                        int len = Base64.decode4to3( this.buffer, 0, this.b4, 0, this.options );
+                        this.out.write( this.b4, 0, len );
+                        this.position = 0;
                     }   // end if: enough to output
                 }   // end if: meaningful base64 character
-                else if( decodabet[ theByte & 0x7f ] != WHITE_SPACE_ENC ) {
+                else if( this.decodabet[ theByte & 0x7f ] != WHITE_SPACE_ENC ) {
                     throw new java.io.IOException( "Invalid character in Base64 data." );
                 }   // end else: not white space either
             }   // end else: decoding
@@ -1980,7 +1968,7 @@ public class Base64
         public void write( byte[] theBytes, int off, int len ) 
         throws java.io.IOException {
             // Encoding suspended?
-            if( suspendEncoding ) {
+            if( this.suspendEncoding ) {
                 this.out.write( theBytes, off, len );
                 return;
             }   // end if: supsended
@@ -1999,10 +1987,10 @@ public class Base64
          * @throws java.io.IOException  if there's an error.
          */
         public void flushBase64() throws java.io.IOException  {
-            if( position > 0 ) {
-                if( encode ) {
-                    out.write( encode3to4( b4, buffer, position, options ) );
-                    position = 0;
+            if( this.position > 0 ) {
+                if( this.encode ) {
+                    this.out.write( encode3to4( this.b4, this.buffer, this.position, this.options ) );
+                    this.position = 0;
                 }   // end if: encoding
                 else {
                     throw new java.io.IOException( "Base64 input not properly padded." );
@@ -2026,8 +2014,8 @@ public class Base64
             // Base class both flushes and closes.
             super.close();
             
-            buffer = null;
-            out    = null;
+            this.buffer = null;
+            this.out    = null;
         }   // end close
         
         

@@ -1,8 +1,8 @@
 package Cosm;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.json.JSONArray;
 
 public class Permission {
 	private String sourceIp;
@@ -13,42 +13,42 @@ public class Permission {
 	private AccessMethod[] accessMethods;
 
 	public Permission() {
-		resources = new Resource[0];
-		accessMethods = new AccessMethod[0];
+		this.resources = new Resource[0];
+		this.accessMethods = new AccessMethod[0];
 	}
 	
 	public String getSourceIp() {
-		return sourceIp;
+		return this.sourceIp;
 	}
 	public void setSourceIp(String sourceIp) {
 		this.sourceIp = sourceIp;
 	}
 	public String getReferer() {
-		return referer;
+		return this.referer;
 	}
 	public void setReferer(String referer) {
 		this.referer = referer;
 	}
 	public String getMinimumInterval() {
-		return minimumInterval;
+		return this.minimumInterval;
 	}
 	public void setMinimumInterval(String minimumInterval) {
 		this.minimumInterval = minimumInterval;
 	}
 	public String getLabel() {
-		return label;
+		return this.label;
 	}
 	public void setLabel(String label) {
 		this.label = label;
 	}
 	public Resource[] getResources() {
-		return resources;
+		return this.resources;
 	}
 	public void setResources(Resource[] resources) {
 		this.resources = resources;
 	}
 	public AccessMethod[] getAccessMethods() {
-		return accessMethods;
+		return this.accessMethods;
 	}
 	public void setAccessMethods(AccessMethod[] accessMethods) {
 		this.accessMethods = accessMethods;
@@ -64,16 +64,16 @@ public class Permission {
 		
 		{
 			JSONArray ja = new JSONArray();
-			for(int i=0;(i<resources.length);i++) {
-				ja.put(resources[i].toJSONObject());
+			for(int i=0;(i<this.resources.length);i++) {
+				ja.put(this.resources[i].toJSONObject());
 			}
 			jo.put("resources", ja);
 		}
 		
 		{
 			JSONArray ja = new JSONArray();
-			for(int i=0;(i<accessMethods.length);i++) {
-				ja.put(accessMethods[i].toString());
+			for(int i=0;(i<this.accessMethods.length);i++) {
+				ja.put(this.accessMethods[i].toString());
 			}
 			jo.put("access_methods", ja);
 		}

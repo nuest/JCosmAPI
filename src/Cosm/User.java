@@ -42,24 +42,24 @@ public class User {
 		try {
 			JSONObject jo = new JSONObject();
 
-			jo.putOpt("display_stats", displayStats); // != null ? displayStats.toString() : null);
-			jo.putOpt("display_activity", displayActivity); // != null ? display_activity.toString() : null);
-			jo.putOpt("display_information", displayInformation); // != null ? display_information.toString() : null);
-			jo.putOpt("deliver_mail", deliverEmail); // != null ? deliver_email.toString() : null);
-			jo.putOpt("receive_forum_notifications", receiveForumNotifications); // != null ? receiveForumNotifications.toString() : null);
-			jo.putOpt("organisation", organisation);
-			jo.putOpt("about", about);
-			jo.putOpt("website", website);
-			jo.putOpt("full_name", fullName);
-			jo.putOpt("time_zone",timeZone);
-			jo.putOpt("subscribed_to_mailings", subscribedToMailings); // != null ? subscribedToMailings.toString() : null);
+			jo.putOpt("display_stats", this.displayStats); // != null ? displayStats.toString() : null);
+			jo.putOpt("display_activity", this.displayActivity); // != null ? display_activity.toString() : null);
+			jo.putOpt("display_information", this.displayInformation); // != null ? display_information.toString() : null);
+			jo.putOpt("deliver_mail", this.deliverEmail); // != null ? deliver_email.toString() : null);
+			jo.putOpt("receive_forum_notifications", this.receiveForumNotifications); // != null ? receiveForumNotifications.toString() : null);
+			jo.putOpt("organisation", this.organisation);
+			jo.putOpt("about", this.about);
+			jo.putOpt("website", this.website);
+			jo.putOpt("full_name", this.fullName);
+			jo.putOpt("time_zone",this.timeZone);
+			jo.putOpt("subscribed_to_mailings", this.subscribedToMailings); // != null ? subscribedToMailings.toString() : null);
 			JSONArray ja = new JSONArray();
-			for(int i=0;(i<roles.length);i++) {
-				ja.put(roles[i]);
+			for(int i=0;(i<this.roles.length);i++) {
+				ja.put(this.roles[i]);
 			}
 			jo.put("roles", ja);
-			jo.putOpt("login", login);
-			jo.putOpt("email", email);
+			jo.putOpt("login", this.login);
+			jo.putOpt("email", this.email);
 			
 		
 			JSONObject jou = new JSONObject();
@@ -84,7 +84,7 @@ public class User {
 	
 	
 	public String getAbout() {
-		return about;
+		return this.about;
 	}
 	public void setAbout(String about) {
 		this.about = about;
@@ -96,25 +96,25 @@ public class User {
 //		this.api_key = api_key;
 //	}
 	public String[] getCreateableRoles() {
-		return createableRoles;
+		return this.createableRoles;
 	}
 	public void setCreateableRoles(String[] createable_roles) {
 		this.createableRoles = createable_roles;
 	}
 	public Boolean getDeliverEmail() {
-		return deliverEmail;
+		return this.deliverEmail;
 	}
 	public void setDeliverEmail(Boolean deliver_email) {
 		this.deliverEmail = deliver_email;
 	}
 	public Boolean getDisplayActivity() {
-		return displayActivity;
+		return this.displayActivity;
 	}
 	public void setDisplayActivity(Boolean display_activity) {
 		this.displayActivity = display_activity;
 	}
 	public Boolean getDisplayInformation() {
-		return displayInformation;
+		return this.displayInformation;
 	}
 	public void setDisplayInformation(Boolean display_information) {
 		this.displayInformation = display_information;
@@ -132,61 +132,61 @@ public class User {
 //		this.lastName = lastName;
 //	}
 	public String getLogin() {
-		return login;
+		return this.login;
 	}
 	public void setLogin(String login) {
 		this.login = login;
 	}
 	public String getOrganisation() {
-		return organisation;
+		return this.organisation;
 	}
 	public void setOrganisation(String organisation) {
 		this.organisation = organisation;
 	}
 	public String getTimeZone() {
-		return timeZone;
+		return this.timeZone;
 	}
 	public void setTimeZone(String timeZone) {
 		this.timeZone = timeZone;
 	}
 	public String getWebsite() {
-		return website;
+		return this.website;
 	}
 	public void setWebsite(String website) {
 		this.website = website;
 	}
 	public String getEmail() {
-		return email;
+		return this.email;
 	}
 	public void setEmail(String email) {
 		this.email = email;
 	}
 	public Boolean getDisplayStats() {
-		return displayStats;
+		return this.displayStats;
 	}
 	public void setDisplayStats(Boolean displayStats) {
 		this.displayStats = displayStats;
 	}
 	public String getFullName() {
-		return fullName;
+		return this.fullName;
 	}
 	public void setFullName(String fullName) {
 		this.fullName = fullName;
 	}
 	public Boolean getReceiveForumNotifications() {
-		return receiveForumNotifications;
+		return this.receiveForumNotifications;
 	}
 	public void setReceiveForumNotifications(Boolean receiveForumNotifications) {
 		this.receiveForumNotifications = receiveForumNotifications;
 	}
 	public String[] getRoles() {
-		return roles;
+		return this.roles;
 	}
 	public void setRoles(String[] roles) {
 		this.roles = roles;
 	}
 	public Boolean getSubscribedToMailings() {
-		return subscribedToMailings;
+		return this.subscribedToMailings;
 	}
 	public void setSubscribedToMailings(Boolean subscribedToMailings) {
 		this.subscribedToMailings = subscribedToMailings;
@@ -196,7 +196,7 @@ public class User {
 	
 	
 	public Integer getTotalApiAccesCount() {
-		return totalApiAccesCount;
+		return this.totalApiAccesCount;
 	}
 
 
@@ -226,7 +226,7 @@ public class User {
 
 
 	public Integer getDatastreamsCount() {
-		return datastreamsCount;
+		return this.datastreamsCount;
 	}
 
 
@@ -256,7 +256,7 @@ public class User {
 
 
 	public String getEmailHash() {
-		return emailHash;
+		return this.emailHash;
 	}
 
 
@@ -286,7 +286,7 @@ public class User {
 
 
 	public Boolean getProvisioningEnabled() {
-		return provisioningEnabled;
+		return this.provisioningEnabled;
 	}
 
 
@@ -316,7 +316,7 @@ public class User {
 
 
 	public Integer getFeedsCount() {
-		return feedsCount;
+		return this.feedsCount;
 	}
 
 
@@ -346,7 +346,7 @@ public class User {
 
 
 	public Integer getDatastreamsAllowed() {
-		return datastreamsAllowed;
+		return this.datastreamsAllowed;
 	}
 
 
@@ -376,7 +376,7 @@ public class User {
 
 
 	public Integer getDailyApiAccessCount() {
-		return dailyApiAccessCount;
+		return this.dailyApiAccessCount;
 	}
 
 
@@ -406,7 +406,7 @@ public class User {
 
 
 	public UserState getState() {
-		return state;
+		return this.state;
 	}
 
 

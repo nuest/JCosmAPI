@@ -7,13 +7,13 @@ public class Datapoint {
 	private String at;
 	private String value;
 	public String getAt() {
-		return at;
+		return this.at;
 	}
 	public void setAt(String at) {
 		this.at = at;
 	}
 	public String getValue() {
-		return value;
+		return this.value;
 	}
 	public void setValue(String value) {
 		this.value = value;
@@ -21,8 +21,8 @@ public class Datapoint {
 	
 	public JSONObject toJSONObject() throws JSONException {
 		JSONObject jo = new JSONObject();
-		jo.put("value",value);
-		jo.put("at", at);
+		jo.put("value",this.value);
+		jo.put("at", this.at);
 		return jo;
 	}
 

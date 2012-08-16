@@ -5,7 +5,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class CosmException extends Exception {
-	private StatusLine statusLine;
+	/**
+     * 
+     */
+    private static final long serialVersionUID = -3461882529148695038L;
+    private StatusLine statusLine;
 	private String title;
 	private String errorMessage;
 	private Exception exception;
@@ -37,17 +41,20 @@ public class CosmException extends Exception {
 	
 	@Override
 	public String getMessage() {
-		if (( title != null )&&(errorMessage!=null)) {
-			return title + ". " + errorMessage;
+		if (( this.title != null )&&(this.errorMessage!=null)) {
+			return this.title + ". " + this.errorMessage;
 		}
-		if ( errorMessage != null ) {
-			return errorMessage;
+		if ( this.errorMessage != null ) {
+			return this.errorMessage;
 		}
-		if ( statusLine != null ) {
-			return statusLine.toString();
+		if ( this.statusLine != null ) {
+			return this.statusLine.toString();
 		}
 		return super.getMessage();		
 	}
-	
+
+    public Exception getException() {
+        return this.exception;
+    }
 
 }

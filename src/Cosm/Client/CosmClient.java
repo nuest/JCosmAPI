@@ -5,14 +5,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpRequestBase;
-import org.apache.http.conn.ClientConnectionManager;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.util.EntityUtils;
 
 
 public class CosmClient {
@@ -37,7 +34,7 @@ public class CosmClient {
 	}
 		
 	public HttpResponse execute(HttpRequestBase request) throws IOException {
-		switch ( authMethod ) {
+		switch ( this.authMethod ) {
 		case apikey:
 			request.addHeader("X-PachubeApiKey", this.API_KEY);
 			break;
@@ -50,7 +47,7 @@ public class CosmClient {
 		}
 		//TODO: the next call has given a null pointer exception, concurrent requests?
 		//http://hc.apache.org/httpcomponents-client-ga/httpclient/apidocs/index.html
-		return client.execute(request);
+		return this.client.execute(request);
 	}
 		
 	public String getBody(HttpResponse response) throws IOException {

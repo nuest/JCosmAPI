@@ -69,7 +69,6 @@
 
 	<build>
 		<finalName>JCosmAPI</finalName>
-
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>

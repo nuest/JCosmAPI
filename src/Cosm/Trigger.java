@@ -20,14 +20,14 @@ public class Trigger {
 		
 		jo.putOpt("threshold_value", this.thresholdValue);
 		jo.putOpt("url", this.url);
-		if ( type != null ) {
-			jo.putOpt("trigger_type", type.toString());
+		if ( this.type != null ) {
+			jo.putOpt("trigger_type", this.type.toString());
 		}
-		jo.putOpt("environment_id", environment_id);
-		jo.putOpt("stream_id", stream_id);
-		jo.putOpt("user", user);
-		jo.putOpt("notified_at",notifiedAt);
-		jo.putOpt("id", id);
+		jo.putOpt("environment_id", this.environment_id);
+		jo.putOpt("stream_id", this.stream_id);
+		jo.putOpt("user", this.user);
+		jo.putOpt("notified_at",this.notifiedAt);
+		jo.putOpt("id", this.id);
 		
 		return jo;
 	}
@@ -35,7 +35,7 @@ public class Trigger {
 	
 	
 	public String getUser() {
-		return user;
+		return this.user;
 	}
 
 
@@ -47,7 +47,7 @@ public class Trigger {
 
 
 	public String getNotifiedAt() {
-		return notifiedAt;
+		return this.notifiedAt;
 	}
 
 
@@ -59,7 +59,7 @@ public class Trigger {
 
 
 	public Integer getEnvironmentId() {
-		return environment_id;
+		return this.environment_id;
 	}
 
 	public void setEnvironmentId(Integer environment_id) {
@@ -67,7 +67,7 @@ public class Trigger {
 	}
 
 	public String getStreamId() {
-		return stream_id;
+		return this.stream_id;
 	}
 
 	public void setStreamId(String stream_id) {
@@ -75,25 +75,25 @@ public class Trigger {
 	}
 
 	public String getId() {
-		return id;
+		return this.id;
 	}
 	public void setId(String id) {
 		this.id = id;
 	}
 	public String getThresholdValue() {
-		return thresholdValue;
+		return this.thresholdValue;
 	}
 	public void setThresholdValue(String thresholdValue) {
 		this.thresholdValue = thresholdValue;
 	}
 	public TriggerType getType() {
-		return type;
+		return this.type;
 	}
 	public void setType(TriggerType type) {
 		this.type = type;
 	}
 	public String getUrl() {
-		return url;
+		return this.url;
 	}
 	public void setUrl(String url) {
 		this.url = url;

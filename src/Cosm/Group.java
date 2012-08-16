@@ -17,17 +17,17 @@ public class Group {
 	}
 	
 	public Group() {
-		owner = "";
-		groupid = "";
-		label = "";
-		members = new String[0];
-		feeds = new Integer[0];
+		this.owner = "";
+		this.groupid = "";
+		this.label = "";
+		this.members = new String[0];
+		this.feeds = new Integer[0];
 	}
 	
 	
 	
 	public String getOwner() {
-		return owner;
+		return this.owner;
 	}
 
 
@@ -39,25 +39,25 @@ public class Group {
 
 
 	public String getGroupid() {
-		return groupid;
+		return this.groupid;
 	}
 	public void setGroupid(String groupid) {
 		this.groupid = groupid;
 	}
 	public String getLabel() {
-		return label;
+		return this.label;
 	}
 	public void setLabel(String label) {
 		this.label = label;
 	}
 	public String[] getMembers() {
-		return members;
+		return this.members;
 	}
 	public void setMembers(String[] members) {
 		this.members = members;
 	}
 	public Integer[] getFeeds() {
-		return feeds;
+		return this.feeds;
 	}
 	public void setFeeds(Integer[] feeds) {
 		this.feeds = feeds;
@@ -68,14 +68,14 @@ public class Group {
 		
 		jo.put("label", this.label);
 		JSONArray ja = new JSONArray();
-		for(int i=0;(i<members.length);i++) {
-			ja.put(members[i]);
+		for(int i=0;(i<this.members.length);i++) {
+			ja.put(this.members[i]);
 		}
 		jo.put("members",ja);
 		
 		JSONArray jf = new JSONArray();
-		for(int j=0;(j<feeds.length);j++) {
-			jf.put(feeds[j]);
+		for(int j=0;(j<this.feeds.length);j++) {
+			jf.put(this.feeds[j]);
 		}
 		jo.put("feeds", jf);
 		

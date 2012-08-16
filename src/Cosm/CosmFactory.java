@@ -1,24 +1,10 @@
 package Cosm;
 
-import java.io.ByteArrayInputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Date;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.DOMException;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 
 
@@ -28,7 +14,7 @@ public class CosmFactory {
 	
 	
 	
-	private static Unit toUnit(JSONObject jo) throws JSONException {
+	private static Unit toUnit(JSONObject jo) {
 		Unit unit = new Unit();
 		
 		String type = jo.optString("type");
@@ -59,7 +45,7 @@ public class CosmFactory {
 		}
 		
 		
-		Integer total_api_access_count = ju.optInt("total_api_access_count");
+		Integer total_api_access_count = Integer.valueOf(ju.optInt("total_api_access_count"));
 		if ( total_api_access_count != null ) {
 			user.setTotalApiAccesCount(total_api_access_count);
 		}
@@ -69,7 +55,7 @@ public class CosmFactory {
 			user.setCreateableRoles(CosmFactory.toStringArray(createable_roles));
 		}
 		
-		Integer datastreams_count = ju.optInt("datastreams_count");
+		Integer datastreams_count = Integer.valueOf(ju.optInt("datastreams_count"));
 		if ( datastreams_count != null ) {
 			user.setDatastreamsCount(datastreams_count);
 		}
@@ -79,22 +65,22 @@ public class CosmFactory {
 			user.setEmailHash(email_hash);
 		}
 		
-		Boolean provisioning_enabled = ju.optBoolean("provisioning_enabled");
+		Boolean provisioning_enabled = Boolean.valueOf(ju.optBoolean("provisioning_enabled"));
 		if ( provisioning_enabled != null ) {
 			user.setProvisioningEnabled(provisioning_enabled);
 		}
 		
-		Integer feeds_count = ju.optInt("feeds_count");
+		Integer feeds_count = Integer.valueOf(ju.optInt("feeds_count"));
 		if ( feeds_count != null ) {
 			user.setFeedsCount(feeds_count);
 		}
 		
-		Integer datastreams_allowed = ju.optInt("datastreams_allowed");
+		Integer datastreams_allowed = Integer.valueOf(ju.optInt("datastreams_allowed"));
 		if ( datastreams_allowed != null ) {
 			user.setDatastreamsAllowed(datastreams_allowed);
 		}
 
-		Integer daily_api_access_count = ju.optInt("daily_api_access_count");
+		Integer daily_api_access_count = Integer.valueOf(ju.optInt("daily_api_access_count"));
 		if ( daily_api_access_count != null ) {
 			user.setDailyApiAccessCount(daily_api_access_count);
 		}
@@ -185,7 +171,7 @@ public class CosmFactory {
 	private static Integer[] toIntArray(JSONArray ja) throws JSONException {
 		Integer[] list = new Integer[ja.length()];
 		for(int i=0;(i<ja.length());i++) {
-			list[i] = ja.getInt(i);
+			list[i] = Integer.valueOf(ja.getInt(i));
 		}
 		return list;
 	}
@@ -252,7 +238,7 @@ public class CosmFactory {
 	}
 	
 	
-	private static Waypoint toWaypoint(JSONObject jo) throws JSONException {
+	private static Waypoint toWaypoint(JSONObject jo) {
 		Waypoint waypoint = new Waypoint();
 		
 		String at = jo.optString("at");
@@ -262,12 +248,12 @@ public class CosmFactory {
 		
 		String lat = jo.optString("lat");
 		if ( lat != null ) {
-			waypoint.setLat(Double.parseDouble(lat));
+			waypoint.setLat(Double.valueOf(lat));
 		}
 
 		String lon = jo.optString("lon");
 		if ( lon != null ) {
-			waypoint.setLon(Double.parseDouble(lon));
+			waypoint.setLon(Double.valueOf(lon));
 		}
 		
 		return waypoint;
@@ -366,7 +352,7 @@ public class CosmFactory {
 			feed.setEmail(email);
 		}
 		
-		Integer id = jo.optInt("id");
+		Integer id = Integer.valueOf(jo.optInt("id"));
 		if ( id != null ) {
 			feed.setId(id);
 		} else {
@@ -575,7 +561,7 @@ public class CosmFactory {
 				trigger.setId(id);
 			}
 			
-			Integer environment_id = jo.optInt("environment_id");
+			Integer environment_id = Integer.valueOf(jo.optInt("environment_id"));
 			if ( environment_id != null ) {
 				trigger.setEnvironmentId(environment_id);
 			}
@@ -677,7 +663,7 @@ public class CosmFactory {
 				throw new JSONException("Apikey is missing from JSON Object");
 			}
 			
-			Boolean private_access = jo.optBoolean("private_access");
+			Boolean private_access = Boolean.valueOf(jo.optBoolean("private_access"));
 			if ( private_access != null ) {
 				apikey.setPrivateAccess(private_access);
 			}

@@ -5,19 +5,19 @@ public class Color {
 	private int blue;
 	private int green;
 	public int getRed() {
-		return red;
+		return this.red;
 	}
 	public void setRed(int red) {
 		this.red = red;
 	}
 	public int getBlue() {
-		return blue;
+		return this.blue;
 	}
 	public void setBlue(int blue) {
 		this.blue = blue;
 	}
 	public int getGreen() {
-		return green;
+		return this.green;
 	}
 	public void setGreen(int green) {
 		this.green = green;

@@ -33,7 +33,7 @@ public class Feed {
 	
 	
 	public String getEmail() {
-		return email;
+		return this.email;
 	}
 
 
@@ -45,7 +45,7 @@ public class Feed {
 
 
 	public String getDescription() {
-		return description;
+		return this.description;
 	}
 
 	public void setDescription(String description) {
@@ -53,7 +53,7 @@ public class Feed {
 	}
 
 	public String getFeed() {
-		return feed;
+		return this.feed;
 	}
 
 	public void setFeed(String feed) {
@@ -61,7 +61,7 @@ public class Feed {
 	}
 
 	public Integer getId() {
-		return id;
+		return this.id;
 	}
 
 	public void setId(Integer id) {
@@ -69,7 +69,7 @@ public class Feed {
 	}
 
 	public Location getLocation() {
-		return location;
+		return this.location;
 	}
 
 	public void setLocation(Location location) {
@@ -77,7 +77,7 @@ public class Feed {
 	}
 
 	public String getTitle() {
-		return title;
+		return this.title;
 	}
 
 	public void setTitle(String title) {
@@ -85,7 +85,7 @@ public class Feed {
 	}
 
 	public Boolean getPrivateFeed() {
-		return privateFeed;
+		return this.privateFeed;
 	}
 
 	public void setPrivateFeed(Boolean privateFeed) {
@@ -93,7 +93,7 @@ public class Feed {
 	}
 
 	public User getUser() {
-		return user;
+		return this.user;
 	}
 
 	public void setUser(User user) {
@@ -102,14 +102,14 @@ public class Feed {
 
 
 	public Feed() {
-		version = Cosm.VERSION;
-		tags = new String[0];
-		datastreams = new Datastream[0];
+		this.version = Cosm.VERSION;
+		this.tags = new String[0];
+		this.datastreams = new Datastream[0];
 	}
 	
 	
 	public String getCreated() {
-		return created;
+		return this.created;
 	}
 
 	public void setCreated(String created) {
@@ -118,7 +118,7 @@ public class Feed {
 
 	
 	public String[] getTags() {
-		return tags;
+		return this.tags;
 	}
 
 	public void setTags(String[] tags) {
@@ -126,7 +126,7 @@ public class Feed {
 	}
 
 	public String getVersion() {
-		return version;
+		return this.version;
 	}
 
 	public void setVersion(String version) {
@@ -136,7 +136,7 @@ public class Feed {
 	
 	
 	public String getWebsite() {
-		return website;
+		return this.website;
 	}
 
 	public void setWebsite(String website) {
@@ -144,7 +144,7 @@ public class Feed {
 	}
 
 	public Datastream[] getDatastreams() {
-		return datastreams;
+		return this.datastreams;
 	}
 
 	public void setDatastreams(Datastream[] datastreams) {
@@ -152,7 +152,7 @@ public class Feed {
 	}
 
 	public String getCreator() {
-		return creator;
+		return this.creator;
 	}
 
 	public void setCreator(String creator) {
@@ -160,7 +160,7 @@ public class Feed {
 	}
 
 	public String getUpdated() {
-		return updated;
+		return this.updated;
 	}
 
 	public void setUpdated(String updated) {
@@ -168,7 +168,7 @@ public class Feed {
 	}
 
 	public Status getStatus() {
-		return status;
+		return this.status;
 	}
 
 	public void setStatus(Status status) {
@@ -176,7 +176,7 @@ public class Feed {
 	}
 
 	public String getIcon() {
-		return icon;
+		return this.icon;
 	}
 
 	public void setIcon(String icon) {
@@ -192,7 +192,7 @@ public class Feed {
 	}
 
 	public String getErrors() {
-		return errors;
+		return this.errors;
 	}
 
 	public void setErrors(String errors) {
@@ -202,14 +202,14 @@ public class Feed {
 	public JSONObject toJSONObject() throws JSONException {
 		JSONObject jo = new JSONObject();
 	
-		jo.putOpt("description", description);
-		jo.putOpt("feed", feed);
+		jo.putOpt("description", this.description);
+		jo.putOpt("feed", this.feed);
 		//jo.putOpt("id", id);
-		if ( location != null ) {
-			jo.put("location", location.toJSONObject());
+		if ( this.location != null ) {
+			jo.put("location", this.location.toJSONObject());
 		}
 	
-		if ( title != null ) {
+		if ( this.title != null ) {
 			jo.put("title",this.title);
 		} else {
 			throw new JSONException("required element title is missing from feed");
@@ -230,8 +230,8 @@ public class Feed {
 		}
 		jo.put("tags",ja);
 		JSONArray jda = new JSONArray();
-		for(int j=0;(j<datastreams.length);j++) {
-			jda.put(datastreams[j].toJSONObject());
+		for(int j=0;(j<this.datastreams.length);j++) {
+			jda.put(this.datastreams[j].toJSONObject());
 		}
 		jo.put("datastreams", jda); //
 		jo.putOpt("private", this.privateFeed); 

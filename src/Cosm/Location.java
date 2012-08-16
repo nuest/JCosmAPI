@@ -40,7 +40,7 @@ public class Location {
 	
 	
 	public Waypoint[] getWaypoints() {
-		return waypoints;
+		return this.waypoints;
 	}
 
 
@@ -55,40 +55,40 @@ public class Location {
 
 	public void setLat(String lat){
 		try{
-			this.lat = Double.parseDouble(lat);
+			this.lat = Double.valueOf(lat);
 		}catch  (Exception c){
-			this.lat = 0.0;
+			this.lat = Double.valueOf(0.0d);
 		}
 	}
 
 	
 	public void setLon(String lon){
 		try{
-			this.lon= Double.parseDouble(lon);
+			this.lon= Double.valueOf(lon);
 		}catch  (Exception c){
-			this.lon = 0.0;
+			this.lon = Double.valueOf(0.0d);
 		}
 	}
 
 	
 	public void setElevation(String elevation) {
 		try{
-			this.elevation = Double.parseDouble(elevation);
+			this.elevation = Double.valueOf(elevation);
 		}catch  (Exception c){
-			this.elevation = 0.0;
+			this.elevation = Double.valueOf(0.0d);
 		}
 	}
 	
 	@Override
 	public String toString() {
-		return name;
+		return this.name;
 	}
 
 	/**
 	 * @return the name
 	 */
 	public String getName() {
-		return name;
+		return this.name;
 	}
 
 	/**
@@ -102,7 +102,7 @@ public class Location {
 	 * @return the lat
 	 */
 	public Double getLat() {
-		return lat;
+		return this.lat;
 	}
 
 	/**
@@ -116,7 +116,7 @@ public class Location {
 	 * @return the lon
 	 */
 	public Double getLon() {
-		return lon;
+		return this.lon;
 	}
 
 	/**
@@ -130,7 +130,7 @@ public class Location {
 	 * @return the elevation
 	 */
 	public Double getElevation() {
-		return elevation;
+		return this.elevation;
 	}
 
 	/**
@@ -144,7 +144,7 @@ public class Location {
 	 * @return the exposure
 	 */
 	public Exposure getExposure() {
-		return exposure;
+		return this.exposure;
 	}
 
 	/**
@@ -158,7 +158,7 @@ public class Location {
 	 * @return the domain
 	 */
 	public Domain getDomain() {
-		return domain;
+		return this.domain;
 	}
 
 	/**
@@ -172,7 +172,7 @@ public class Location {
 	 * @return the disposition
 	 */
 	public Disposition getDisposition() {
-		return disposition;
+		return this.disposition;
 	}
 
 	/**

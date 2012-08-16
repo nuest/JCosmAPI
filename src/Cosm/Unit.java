@@ -8,19 +8,19 @@ public class Unit {
 	private String symbol;
 	private String label;
 	public String getType() {
-		return type;
+		return this.type;
 	}
 	public void setType(String type) {
 		this.type = type;
 	}
 	public String getSymbol() {
-		return symbol;
+		return this.symbol;
 	}
 	public void setSymbol(String symbol) {
 		this.symbol = symbol;
 	}
 	public String getLabel() {
-		return label;
+		return this.label;
 	}
 	public void setLabel(String label) {
 		this.label = label;
@@ -28,9 +28,9 @@ public class Unit {
 	
 	public JSONObject toJSONObject() throws JSONException {
 		JSONObject jo = new JSONObject();
-		jo.putOpt("type",type);
-		jo.putOpt("symbol", symbol);
-		jo.putOpt("label", label);		
+		jo.putOpt("type",this.type);
+		jo.putOpt("symbol", this.symbol);
+		jo.putOpt("label", this.label);		
 		return jo;
 	}
 	

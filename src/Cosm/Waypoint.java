@@ -5,19 +5,19 @@ public class Waypoint {
 	private Double lat;
 	private Double lon;
 	public String getAt() {
-		return at;
+		return this.at;
 	}
 	public void setAt(String at) {
 		this.at = at;
 	}
 	public Double getLat() {
-		return lat;
+		return this.lat;
 	}
 	public void setLat(Double lat) {
 		this.lat = lat;
 	}
 	public Double getLon() {
-		return lon;
+		return this.lon;
 	}
 	public void setLon(Double lon) {
 		this.lon = lon;

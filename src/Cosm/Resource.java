@@ -8,13 +8,13 @@ public class Resource {
 	private String datastreamId;
 	
 	public String getFeedId() {
-		return feedId;
+		return this.feedId;
 	}
 	public void setFeedId(String feedId) {
 		this.feedId = feedId;
 	}
 	public String getDatastreamId() {
-		return datastreamId;
+		return this.datastreamId;
 	}
 	public void setDatastreamId(String datastreamId) {
 		this.datastreamId = datastreamId;
@@ -23,12 +23,12 @@ public class Resource {
 	public JSONObject toJSONObject() throws JSONException {
 		JSONObject jo = new JSONObject();
 		
-		if (( datastreamId != null ) && (feedId == null )) {
+		if (( this.datastreamId != null ) && (this.feedId == null )) {
 			throw new JSONException("feedid is not set while datastreamid is set");
 		}
 		
-		jo.putOpt("feed_id",feedId);
-		jo.putOpt("datastream_id",datastreamId);
+		jo.putOpt("feed_id",this.feedId);
+		jo.putOpt("datastream_id",this.datastreamId);
 		
 		return jo;
 	}

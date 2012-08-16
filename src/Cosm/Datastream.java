@@ -21,16 +21,16 @@ public class Datastream {
 	}
 	
 	public Datastream() {
-		tags = new String[0];
+		this.tags = new String[0];
 	}
 	
 	public JSONObject toJSONObject() throws JSONException {
 		JSONObject jo = new JSONObject();
 		
-		jo.put("current_value", current_value);
-		jo.put("id", id);
-		jo.putOpt("max_value", max_value);
-		jo.putOpt("min_value", min_value);
+		jo.put("current_value", this.current_value);
+		jo.put("id", this.id);
+		jo.putOpt("max_value", this.max_value);
+		jo.putOpt("min_value", this.min_value);
 		JSONArray ja = new JSONArray();
 		for(int i=0;(i<this.tags.length);i++) {
 			ja.put(this.tags[i]);
@@ -52,7 +52,7 @@ public class Datastream {
 	}
 	
 	public String getCurrentValue() {
-		return current_value;
+		return this.current_value;
 	}
 
 	public void setCurrentValue(String current_value) {
@@ -60,7 +60,7 @@ public class Datastream {
 	}
 
 	public String getId() {
-		return id;
+		return this.id;
 	}
 
 	public void setId(String id) {
@@ -68,7 +68,7 @@ public class Datastream {
 	}
 
 	public String getMaxValue() {
-		return max_value;
+		return this.max_value;
 	}
 
 	public void setMaxValue(String max_value) {
@@ -76,7 +76,7 @@ public class Datastream {
 	}
 
 	public String getMinValue() {
-		return min_value;
+		return this.min_value;
 	}
 
 	public void setMinValue(String min_value) {
@@ -84,7 +84,7 @@ public class Datastream {
 	}
 
 	public String[] getTags() {
-		return tags;
+		return this.tags;
 	}
 
 	public void setTags(String[] tags) {
@@ -92,7 +92,7 @@ public class Datastream {
 	}
 
 	public Unit getUnit() {
-		return unit;
+		return this.unit;
 	}
 
 	public void setUnit(Unit unit) {
