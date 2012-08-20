@@ -36,6 +36,9 @@ public class Cosm {
     private static final String API_VERSION = "/v2/";
 
     public static final String API_BASE_URL_V2 = API_SCHEME+ "://" + API_HOST + API_VERSION; //"http://api.cosm.com/v2/";
+    private static final String JSON_FILE_EXTENSION = ".json";
+    private static final String HEADER_PARAM_LOCATION = "Location";
+    private static final String API_RESOURCE_FEEDS = "feeds";
 
 	private CosmClient client;
 
@@ -80,9 +83,9 @@ public class Cosm {
 		try {			
 			HttpGet hr = null;
 			if ( show_user ) {
-				hr = new HttpGet(API_BASE_URL_V2 + "feeds/"+feedid+".json?show_user=true");
+				hr = new HttpGet(API_BASE_URL_V2 + API_RESOURCE_FEEDS + "/"+feedid+JSON_FILE_EXTENSION+"?show_user=true");
 			} else {
-				hr = new HttpGet(API_BASE_URL_V2 + "feeds/"+feedid+".json?show_user=false");				
+				hr = new HttpGet(API_BASE_URL_V2 + API_RESOURCE_FEEDS + "/"+feedid+JSON_FILE_EXTENSION+"?show_user=false");				
 			}
 			HttpResponse response = this.client.execute(hr);
 			StatusLine statusLine = response.getStatusLine();
@@ -188,7 +191,7 @@ public class Cosm {
 		}
 
 		try {
-			URI uri = new URI(API_SCHEME,API_HOST, API_VERSION + "feeds.json",q,null);
+			URI uri = new URI(API_SCHEME,API_HOST, API_VERSION + API_RESOURCE_FEEDS + JSON_FILE_EXTENSION,q,null);
 			HttpGet hr = new HttpGet(uri);
 			HttpResponse response = this.client.execute(hr);
 			StatusLine statusLine = response.getStatusLine();
@@ -212,7 +215,7 @@ public class Cosm {
 	// delete feed
 	public void deleteFeed(Integer feedid) throws CosmException {
 		try {
-			HttpDelete hr = new HttpDelete(API_BASE_URL_V2 + "feeds/"+feedid);
+			HttpDelete hr = new HttpDelete(API_BASE_URL_V2 + API_RESOURCE_FEEDS + "/" + feedid);
 			HttpResponse response = this.client.execute(hr);
 			StatusLine statusLine = response.getStatusLine();
 			this.client.getBody(response);
@@ -228,12 +231,12 @@ public class Cosm {
 	// create feed
 	public Feed createFeed(Feed feed) throws CosmException {
 		try {
-			HttpPost hr = new HttpPost(API_BASE_URL_V2 + "feeds.json");
+			HttpPost hr = new HttpPost(API_BASE_URL_V2 + API_RESOURCE_FEEDS + JSON_FILE_EXTENSION);
 			hr.setEntity(new StringEntity(feed.toJSONObject().toString()));
 			HttpResponse response = this.client.execute(hr);			
 			StatusLine statusLine = response.getStatusLine();
 			if ( statusLine.getStatusCode() == 201 ) {
-				String a[] = response.getHeaders("Location")[0].getValue().split("/");
+				String a[] = response.getHeaders(HEADER_PARAM_LOCATION)[0].getValue().split("/");
 				Integer feedid = Integer.valueOf(a[a.length -1]);
 				this.client.getBody(response);
 				return this.getFeed(feedid.intValue());
@@ -249,7 +252,7 @@ public class Cosm {
 	// update feed
 	public void updateFeed(Feed feed) throws CosmException {
 		try {
-			HttpPut hr = new HttpPut(API_BASE_URL_V2 + "feeds/" + feed.getId() + ".json");
+			HttpPut hr = new HttpPut(API_BASE_URL_V2 + API_RESOURCE_FEEDS + "/" + feed.getId() + JSON_FILE_EXTENSION);
 			hr.setEntity(new StringEntity(feed.toJSONObject().toString()));
 			HttpResponse response = this.client.execute(hr);
 			StatusLine statusLine = response.getStatusLine();
@@ -265,7 +268,7 @@ public class Cosm {
 	// create group
 	public Group createGroup(Group group) throws CosmException {
 		try {
-			HttpPost hr = new HttpPost(API_BASE_URL_V2 + "groups.json");
+			HttpPost hr = new HttpPost(API_BASE_URL_V2 + "groups" + JSON_FILE_EXTENSION);
 			hr.setEntity(new StringEntity(group.toJSONObject().toString()));
 			HttpResponse response = this.client.execute(hr);			
 			StatusLine statusLine = response.getStatusLine();
@@ -284,7 +287,7 @@ public class Cosm {
 	// get group
 	public Group getGroup(String groupid) throws CosmException {
 		try {
-			HttpGet hr = new HttpGet(API_BASE_URL_V2 + "groups/"+groupid+".json");
+			HttpGet hr = new HttpGet(API_BASE_URL_V2 + "groups/"+groupid+JSON_FILE_EXTENSION);
 			HttpResponse response = this.client.execute(hr);
 			StatusLine statusLine = response.getStatusLine();
 			if ( statusLine.getStatusCode() == 200 ) {
@@ -301,7 +304,7 @@ public class Cosm {
 	// get groups
 	public Group[] getGroups() throws CosmException {
 		try {
-			HttpGet hr = new HttpGet(API_BASE_URL_V2 + "groups.json");
+			HttpGet hr = new HttpGet(API_BASE_URL_V2 + "groups" + JSON_FILE_EXTENSION);
 			HttpResponse response = this.client.execute(hr);
 			StatusLine statusLine = response.getStatusLine();
 			if ( statusLine.getStatusCode() == 200 ) {
@@ -317,7 +320,7 @@ public class Cosm {
 	// update group
 	public void updateGroup(Group group) throws CosmException {
 		try {
-			HttpPut hr = new HttpPut(API_BASE_URL_V2 + "groups/" + group.getGroupid() + ".json");
+			HttpPut hr = new HttpPut(API_BASE_URL_V2 + "groups/" + group.getGroupid() + JSON_FILE_EXTENSION);
 			String requestBody = group.toJSONObject().toString();
 			hr.setEntity(new StringEntity(requestBody));
 			HttpResponse response = this.client.execute(hr);
@@ -350,7 +353,7 @@ public class Cosm {
 	// get datastream
 	public Datastream getDatastream(Integer feedid, String datastreamid) throws CosmException {
 		try {
-			HttpGet request = new HttpGet(API_BASE_URL_V2 + "feeds/"+feedid+"/datastreams/"+datastreamid+".json");
+			HttpGet request = new HttpGet(API_BASE_URL_V2 + API_RESOURCE_FEEDS + "/" + feedid + "/datastreams/"+datastreamid+JSON_FILE_EXTENSION);
 			HttpResponse response = this.client.execute(request);
 			StatusLine statusLine = response.getStatusLine();
 			if ( statusLine.getStatusCode() == 200 ) {
@@ -377,7 +380,7 @@ public class Cosm {
 	// create datastream
 	public Datastream createDatastream(Integer feedid, Datastream datastream) throws CosmException {
 		try {
-			HttpPost request = new HttpPost(API_BASE_URL_V2 + "feeds/"+feedid+"/datastreams.json");
+			HttpPost request = new HttpPost(API_BASE_URL_V2 + API_RESOURCE_FEEDS + "/"+feedid+"/datastreams" + JSON_FILE_EXTENSION);
 			JSONObject jo = new JSONObject();
 			jo.put("version", Cosm.VERSION);
 
@@ -390,7 +393,7 @@ public class Cosm {
 			HttpResponse response = this.client.execute(request);
 			StatusLine statusLine = response.getStatusLine();
 			if ( statusLine.getStatusCode() == 201 ) {
-				String a[] = response.getHeaders("Location")[0].getValue().split("/");
+				String a[] = response.getHeaders(HEADER_PARAM_LOCATION)[0].getValue().split("/");
 				String datastreamid = a[a.length -1];
 				this.client.getBody(response);
 				return this.getDatastream(feedid,datastreamid);
@@ -406,7 +409,7 @@ public class Cosm {
 	// update datastream
 	public void updateDatastream(Integer feedid,String datastreamid, Datastream datastream) throws CosmException {
 		try {
-			HttpPut request = new HttpPut(API_BASE_URL_V2 + "feeds/"+feedid+"/datastreams/"+datastreamid+".json");
+			HttpPut request = new HttpPut(API_BASE_URL_V2 + API_RESOURCE_FEEDS + "/"+feedid+"/datastreams/"+datastreamid+JSON_FILE_EXTENSION);
 			request.setEntity(new StringEntity(datastream.toJSONObject().toString()));
 			HttpResponse response = this.client.execute(request);
 			StatusLine statusLine = response.getStatusLine();
@@ -424,7 +427,7 @@ public class Cosm {
 	// delete datastream
 	public void deleteDatastream(Integer feedid,String datastreamid) throws CosmException {
 		try {
-			HttpDelete hr = new HttpDelete(API_BASE_URL_V2 + "feeds/"+feedid+"/datastreams/"+ datastreamid);
+			HttpDelete hr = new HttpDelete(API_BASE_URL_V2 + API_RESOURCE_FEEDS + "/"+feedid+"/datastreams/"+ datastreamid);
 			HttpResponse response = this.client.execute(hr);
 			StatusLine statusLine = response.getStatusLine();
 			if ( statusLine.getStatusCode() != 200 ) {
@@ -440,7 +443,7 @@ public class Cosm {
 	// create datapoint
 	public void createDatapoint(Integer feedid,String datastreamid,Datapoint datapoint) throws CosmException {
 		try {
-			HttpPost request = new HttpPost(API_BASE_URL_V2 + "feeds/"+feedid+"/datastreams/"+datastreamid+"/datapoints.json");
+			HttpPost request = new HttpPost(API_BASE_URL_V2 + API_RESOURCE_FEEDS + "/"+feedid+"/datastreams/"+datastreamid+"/datapoints" + JSON_FILE_EXTENSION);
 			JSONObject jo = new JSONObject();
 			JSONArray ja = new JSONArray();
 			ja.put(datapoint.toJSONObject());
@@ -462,7 +465,7 @@ public class Cosm {
 	// create datapoints
 	public void createDatapoints(Integer feedid,String datastreamid,Datapoint[] datapoints) throws CosmException {
 		try {
-			HttpPost request = new HttpPost(API_BASE_URL_V2 + "feeds/"+feedid+"/datastreams/"+datastreamid+"/datapoints.json");
+			HttpPost request = new HttpPost(API_BASE_URL_V2 + API_RESOURCE_FEEDS + "/"+feedid+"/datastreams/"+datastreamid+"/datapoints" + JSON_FILE_EXTENSION);
 			JSONObject jo = new JSONObject();
 
 			JSONArray ja = new JSONArray();
@@ -488,7 +491,7 @@ public class Cosm {
 	// Cosm documentation says, it's a post. It is in fact a PUT
 	public void updateDatapoint(Integer feedid,String datastreamid,Datapoint datapoint) throws CosmException {
 		try {
-			HttpPut request = new HttpPut(API_BASE_URL_V2 + "feeds/"+ feedid + "/datastreams/"+datastreamid+"/datapoints/"+datapoint.getAt() + ".json");
+			HttpPut request = new HttpPut(API_BASE_URL_V2 + API_RESOURCE_FEEDS + "/" + feedid + "/datastreams/"+datastreamid+"/datapoints/"+datapoint.getAt() + JSON_FILE_EXTENSION);
 			JSONObject jo = new JSONObject();
 			jo.put("value",datapoint.getValue());
 			request.setEntity(new StringEntity(jo.toString()));
@@ -511,7 +514,7 @@ public class Cosm {
 	// get a datapoint
 	public Datapoint getDatapoint(Integer feedid, String datastreamid,String at) throws CosmException {
 		try {
-			HttpGet request = new HttpGet(API_BASE_URL_V2 + "feeds/"+feedid+"/datastreams/"+datastreamid+"/datapoints/"+ at + ".json");
+			HttpGet request = new HttpGet(API_BASE_URL_V2 + API_RESOURCE_FEEDS + "/"+feedid+"/datastreams/"+datastreamid+"/datapoints/"+ at + JSON_FILE_EXTENSION);
 			HttpResponse response = this.client.execute(request);
 			StatusLine statusLine = response.getStatusLine();
 			if ( statusLine.getStatusCode() == 200 ) {
@@ -528,7 +531,7 @@ public class Cosm {
 	// deleting a datapoint
 	public void deleteDatapoint(Integer feedid, String datastreamid,String at) throws CosmException {
 		try {
-			HttpDelete request = new HttpDelete(API_BASE_URL_V2 + "feeds/"+feedid+"/datastreams/"+datastreamid+"/datapoints/"+ at);			
+			HttpDelete request = new HttpDelete(API_BASE_URL_V2 + API_RESOURCE_FEEDS + "/"+feedid+"/datastreams/"+datastreamid+"/datapoints/"+ at);			
 			HttpResponse response = this.client.execute(request);
 			StatusLine statusLine = response.getStatusLine();
 			this.client.getBody(response);
@@ -544,7 +547,7 @@ public class Cosm {
 	// deleting multiple datapoints
 	public void deleteDatapoints(Integer feedid, String datastreamid,String start, String end, String duration) throws CosmException {
 		try {
-			String url = API_BASE_URL_V2 + "feeds/"+feedid+"/datastreams/"+datastreamid+"/datapoints?";
+			String url = API_BASE_URL_V2 + API_RESOURCE_FEEDS + "/"+feedid+"/datastreams/"+datastreamid+"/datapoints?";
 			boolean bAdd = false;
 			if ( start != null ) {
 				if ( bAdd ) url += '&';
@@ -576,7 +579,7 @@ public class Cosm {
 
 	public Waypoint[] getWaypoints(Integer feedid, String start, String end, String duration,Integer interval, Boolean find_previous, Interval_type interval_type,String timezone) throws CosmException {
 		try {
-			String url = API_BASE_URL_V2 + "feeds/"+feedid+".json?";
+			String url = API_BASE_URL_V2 + API_RESOURCE_FEEDS + "/"+feedid+JSON_FILE_EXTENSION+"?";
 
 			boolean bAdd = false;
 			if ( start != null ) {
@@ -642,7 +645,7 @@ public class Cosm {
 	// listing all datapoints, historical queries
 	public Datapoint[] getDatapoints(Integer feedid, String datastreamid, String start, String end, String duration,Integer interval, Boolean find_previous, Interval_type interval_type, int per_page,String timezone) throws CosmException {
 		try {
-			String url = API_BASE_URL_V2 + "feeds/"+feedid+"/datastreams/"+datastreamid+".json?";
+			String url = API_BASE_URL_V2 + API_RESOURCE_FEEDS + "/"+feedid+"/datastreams/"+datastreamid + JSON_FILE_EXTENSION + "?";
 
 			boolean bAdd = false;
 			if ( start != null ) {
@@ -725,13 +728,13 @@ public class Cosm {
 	// create apikey
 	public Apikey createApikey(Apikey apikey) throws CosmException {
 		try {
-			HttpPost request = new HttpPost(API_BASE_URL_V2 + "keys.json");
+			HttpPost request = new HttpPost(API_BASE_URL_V2 + "keys" + JSON_FILE_EXTENSION);
 			request.setEntity(new StringEntity(apikey.toJSONObject().toString()));
 			HttpResponse response = this.client.execute(request);
 			StatusLine statusLine = response.getStatusLine();
 			String body = this.client.getBody(response);			
 			if ( statusLine.getStatusCode() == 201 ) {
-				String a[] = response.getHeaders("Location")[0].getValue().split("/");
+				String a[] = response.getHeaders(HEADER_PARAM_LOCATION)[0].getValue().split("/");
 				String key = a[a.length -1];				
 				return this.getApikey(key);
 			}
@@ -748,7 +751,7 @@ public class Cosm {
 	// get an apikey
 	public Apikey getApikey(String apikey) throws CosmException {
 		try {
-			HttpGet hr = new HttpGet(API_BASE_URL_V2 + "keys/"+apikey+".json");
+			HttpGet hr = new HttpGet(API_BASE_URL_V2 + "keys/"+apikey+JSON_FILE_EXTENSION);
 			HttpResponse response = this.client.execute(hr);
 			StatusLine statusLine = response.getStatusLine();
 			if ( statusLine.getStatusCode() == 200) {
@@ -764,7 +767,7 @@ public class Cosm {
 	// get a list of apikeys 
 	public Apikey[] getApikeys() throws CosmException {
 		try {
-			HttpGet hr = new HttpGet(API_BASE_URL_V2 + "keys.json");
+			HttpGet hr = new HttpGet(API_BASE_URL_V2 + "keys" + JSON_FILE_EXTENSION);
 			HttpResponse response = this.client.execute(hr);
 			StatusLine statusLine = response.getStatusLine();
 			if ( statusLine.getStatusCode() == 200) {
@@ -797,7 +800,7 @@ public class Cosm {
 	// get trigger
 	public Trigger getTrigger(Integer id) throws CosmException {
 		try {
-			HttpGet hr = new HttpGet(API_BASE_URL_V2 + "triggers/"+id+".json");
+			HttpGet hr = new HttpGet(API_BASE_URL_V2 + "triggers/"+id+JSON_FILE_EXTENSION);
 			HttpResponse response = this.client.execute(hr);
 			StatusLine statusLine = response.getStatusLine();
 			if ( statusLine.getStatusCode() == 200) {
@@ -813,7 +816,7 @@ public class Cosm {
 	// get triggers
 	public Trigger[] getTriggers() throws CosmException {
 		try {
-			HttpGet hr = new HttpGet(API_BASE_URL_V2 + "triggers.json");
+			HttpGet hr = new HttpGet(API_BASE_URL_V2 + "triggers" + JSON_FILE_EXTENSION);
 			HttpResponse response = this.client.execute(hr);
 			StatusLine statusLine = response.getStatusLine();
 			if ( statusLine.getStatusCode() == 200) {
@@ -844,13 +847,13 @@ public class Cosm {
 	// create trigger
 	public Trigger createTrigger(Trigger trigger) throws CosmException {
 		try {
-			HttpPost request = new HttpPost(API_BASE_URL_V2 + "triggers.json");
+			HttpPost request = new HttpPost(API_BASE_URL_V2 + "triggers" + JSON_FILE_EXTENSION);
 			request.setEntity(new StringEntity(trigger.toJSONObject().toString()));
 			HttpResponse response = this.client.execute(request);
 			StatusLine statusLine = response.getStatusLine();
 			String body = this.client.getBody(response);			
 			if ( statusLine.getStatusCode() == 201 ) {
-				String a[] = response.getHeaders("Location")[0].getValue().split("/");
+				String a[] = response.getHeaders(HEADER_PARAM_LOCATION)[0].getValue().split("/");
 				Integer id = Integer.valueOf(a[a.length -1]);				
 				return this.getTrigger(id);
 			}
@@ -864,7 +867,7 @@ public class Cosm {
 	// update trigger
 	public void updateTrigger(Trigger trigger) throws CosmException {
 		try {
-			HttpPut request = new HttpPut(API_BASE_URL_V2 + "triggers/"+ trigger.getId() + ".json");
+			HttpPut request = new HttpPut(API_BASE_URL_V2 + "triggers/"+ trigger.getId() + JSON_FILE_EXTENSION);
 			request.setEntity(new StringEntity(trigger.toJSONObject().toString()));
 			HttpResponse response = this.client.execute(request);			
 			StatusLine statusLine = response.getStatusLine();
@@ -884,7 +887,7 @@ public class Cosm {
 	// get user
 	public User getUser(String login) throws CosmException {
 		try {
-			HttpGet hr = new HttpGet(API_BASE_URL_V2 + "users/"+login+".json");
+			HttpGet hr = new HttpGet(API_BASE_URL_V2 + "users/"+login+JSON_FILE_EXTENSION);
 			HttpResponse response = this.client.execute(hr);
 			StatusLine statusLine = response.getStatusLine();
 			if ( statusLine.getStatusCode() == 200) {
@@ -900,7 +903,7 @@ public class Cosm {
 	// get users
 	public User[] getUsers() throws CosmException {
 		try {
-			HttpGet hr = new HttpGet(API_BASE_URL_V2 + "users.json");
+			HttpGet hr = new HttpGet(API_BASE_URL_V2 + "users" + JSON_FILE_EXTENSION);
 			HttpResponse response = this.client.execute(hr);
 			StatusLine statusLine = response.getStatusLine();
 			if ( statusLine.getStatusCode() == 200) {
@@ -916,7 +919,7 @@ public class Cosm {
 	// delete user
 	public void deleteUser(String login) throws CosmException {
 		try {
-			HttpDelete request = new HttpDelete(API_BASE_URL_V2 + "users/"+ login + ".json");			
+			HttpDelete request = new HttpDelete(API_BASE_URL_V2 + "users/"+ login + JSON_FILE_EXTENSION);			
 			HttpResponse response = this.client.execute(request);
 			StatusLine statusLine = response.getStatusLine();
 			this.client.getBody(response);
@@ -932,7 +935,7 @@ public class Cosm {
 	// update user
 	public void updateUser(String login,User user) throws CosmException {
 		try {
-			HttpPut request = new HttpPut(API_BASE_URL_V2 + "users/"+ login + ".json");
+			HttpPut request = new HttpPut(API_BASE_URL_V2 + "users/"+ login + JSON_FILE_EXTENSION);
 			request.setEntity(new StringEntity(user.toJSONObject().toString()));
 			HttpResponse response = this.client.execute(request);			
 			StatusLine statusLine = response.getStatusLine();
@@ -952,7 +955,7 @@ public class Cosm {
 	// create user
 	public void createUser(User user) throws CosmException {
 		try {
-			HttpPost request = new HttpPost(API_BASE_URL_V2 + "users.json");
+			HttpPost request = new HttpPost(API_BASE_URL_V2 + "users" + JSON_FILE_EXTENSION);
 			request.setEntity(new StringEntity(user.toJSONObject().toString()));
 			HttpResponse response = this.client.execute(request);			
 			StatusLine statusLine = response.getStatusLine();
