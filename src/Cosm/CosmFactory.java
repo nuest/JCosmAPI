@@ -6,10 +6,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-
-
-
-
 public class CosmFactory {
 	
 	
@@ -689,10 +685,10 @@ public class CosmFactory {
 				for(int i=0;(i<ja.length());i++) {
 					permissions[i] = toPermission(ja.getJSONObject(i));
 				}
+				apikey.setPermissions(permissions);
 			} else {
 				throw new JSONException("permissions missing");
 			}
-			 			
 			
 			return apikey;
 		} catch ( Exception e ) {

@@ -1,0 +1,3 @@
+
+- create maven folder structure (/src --> src/main/java)
+- write unit tests (/src/test/java)
