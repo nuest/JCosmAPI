@@ -25,7 +25,16 @@ public class Datapoint {
 		jo.put("at", this.at);
 		return jo;
 	}
-
 	
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("Datapoint [at=");
+        builder.append(this.at);
+        builder.append(", value=");
+        builder.append(this.value);
+        builder.append("]");
+        return builder.toString();
+    }
 	
 }

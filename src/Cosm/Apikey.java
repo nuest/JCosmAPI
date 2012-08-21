@@ -1,5 +1,7 @@
 package Cosm;
 
+import java.util.Arrays;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -76,6 +78,23 @@ public class Apikey {
 		
 		return jo;
 	}
+
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("Apikey [label=");
+        builder.append(this.label);
+        builder.append(", privateAccess=");
+        builder.append(this.privateAccess);
+        builder.append(", permissions=");
+        builder.append(Arrays.toString(this.permissions));
+        builder.append(", expiresAt=");
+        builder.append(this.expiresAt);
+        builder.append(", apikey=");
+        builder.append(this.apikey);
+        builder.append("]");
+        return builder.toString();
+    }
 	
 	
 }

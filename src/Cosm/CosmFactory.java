@@ -656,31 +656,34 @@ public class CosmFactory {
 		try {
 			Apikey apikey = new Apikey();
 			
-			String key = jo.optString("api_key");
-			if ( key != null ) {
-				apikey.setApikey(key);
+			JSONObject key = (JSONObject) jo.get("key");
+			
+			String api_key = key.optString("api_key");
+			if ( api_key != null ) {
+				apikey.setApikey(api_key);
 			} else {
 				throw new JSONException("Apikey is missing from JSON Object");
 			}
 			
-			Boolean private_access = Boolean.valueOf(jo.optBoolean("private_access"));
+			Boolean private_access = Boolean.valueOf(key.optBoolean("private_access"));
 			if ( private_access != null ) {
 				apikey.setPrivateAccess(private_access);
 			}
 			
-			String label = jo.optString("label");
+			String label = key.optString("label");
 			if ( label != null ) {
 				apikey.setLabel(label);
 			} else {
 				throw new JSONException("label missing in JSONObject");
 			}
 			
-			String expires_at = jo.optString("expires_at");
+			String expires_at = key.optString("expires_at");
 			if ( expires_at != null ) {
 				apikey.setExpiresAt(expires_at);
 			}
 			
-			JSONArray ja = jo.optJSONArray("permissions");
+			JSONArray ja = key.optJSONArray("permissions");
+//			boolean hasPermissions = key.has("permissions");
 			if ( ja != null ) {
 				Permission[] permissions = new Permission[ja.length()];
 				for(int i=0;(i<ja.length());i++) {

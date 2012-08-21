@@ -1,5 +1,7 @@
 package Cosm;
 
+import java.util.Arrays;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -80,9 +82,27 @@ public class Location {
 	}
 	
 	@Override
-	public String toString() {
-		return this.name;
-	}
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("Location [name=");
+        builder.append(this.name);
+        builder.append(", lat=");
+        builder.append(this.lat);
+        builder.append(", lon=");
+        builder.append(this.lon);
+        builder.append(", elevation=");
+        builder.append(this.elevation);
+        builder.append(", exposure=");
+        builder.append(this.exposure);
+        builder.append(", domain=");
+        builder.append(this.domain);
+        builder.append(", disposition=");
+        builder.append(this.disposition);
+        builder.append(", waypoints=");
+        builder.append(Arrays.toString(this.waypoints));
+        builder.append("]");
+        return builder.toString();
+    }
 
 	/**
 	 * @return the name

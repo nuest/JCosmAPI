@@ -97,5 +97,30 @@ public class Trigger {
 	}
 	public void setUrl(String url) {
 		this.url = url;
-	}	
+	}
+
+
+
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("Trigger [thresholdValue=");
+        builder.append(thresholdValue);
+        builder.append(", user=");
+        builder.append(user);
+        builder.append(", notifiedAt=");
+        builder.append(notifiedAt);
+        builder.append(", url=");
+        builder.append(url);
+        builder.append(", type=");
+        builder.append(type);
+        builder.append(", id=");
+        builder.append(id);
+        builder.append(", environment_id=");
+        builder.append(environment_id);
+        builder.append(", stream_id=");
+        builder.append(stream_id);
+        builder.append("]");
+        return builder.toString();
+    }	
 }

@@ -1,5 +1,7 @@
 package Cosm;
 
+import java.util.Arrays;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -12,9 +14,21 @@ public class Group {
 	private String owner;
 	
 	@Override
-	public String toString() {
-		return this.label;
-	}
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("Group [groupid=");
+        builder.append(this.groupid);
+        builder.append(", label=");
+        builder.append(this.label);
+        builder.append(", members=");
+        builder.append(Arrays.toString(this.members));
+        builder.append(", feeds=");
+        builder.append(Arrays.toString(this.feeds));
+        builder.append(", owner=");
+        builder.append(this.owner);
+        builder.append("]");
+        return builder.toString();
+    }
 	
 	public Group() {
 		this.owner = "";

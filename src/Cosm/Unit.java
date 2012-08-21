@@ -34,4 +34,17 @@ public class Unit {
 		return jo;
 	}
 	
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("Unit [type=");
+        builder.append(type);
+        builder.append(", symbol=");
+        builder.append(symbol);
+        builder.append(", label=");
+        builder.append(label);
+        builder.append("]");
+        return builder.toString();
+    }
+	
 }

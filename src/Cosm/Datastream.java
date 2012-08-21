@@ -1,5 +1,7 @@
 package Cosm;
 
+import java.util.Arrays;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -16,9 +18,25 @@ public class Datastream {
 	private String at;
 	
 	@Override
-	public String toString() {
-		return this.id;
-	}
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("Datastream [current_value=");
+        builder.append(this.current_value);
+        builder.append(", id=");
+        builder.append(this.id);
+        builder.append(", max_value=");
+        builder.append(this.max_value);
+        builder.append(", min_value=");
+        builder.append(this.min_value);
+        builder.append(", tags=");
+        builder.append(Arrays.toString(this.tags));
+        builder.append(", unit=");
+        builder.append(this.unit);
+        builder.append(", at=");
+        builder.append(this.at);
+        builder.append("]");
+        return builder.toString();
+    }
 	
 	public Datastream() {
 		this.tags = new String[0];

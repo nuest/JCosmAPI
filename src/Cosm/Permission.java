@@ -1,5 +1,7 @@
 package Cosm;
 
+import java.util.Arrays;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -80,5 +82,24 @@ public class Permission {
 	
 		return jo;
 	}
+
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("Permission [sourceIp=");
+        builder.append(this.sourceIp);
+        builder.append(", referer=");
+        builder.append(this.referer);
+        builder.append(", minimumInterval=");
+        builder.append(this.minimumInterval);
+        builder.append(", label=");
+        builder.append(this.label);
+        builder.append(", resources=");
+        builder.append(Arrays.toString(this.resources));
+        builder.append(", accessMethods=");
+        builder.append(Arrays.toString(this.accessMethods));
+        builder.append("]");
+        return builder.toString();
+    }
 	
 }

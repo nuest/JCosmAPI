@@ -33,8 +33,6 @@ public class CosmException extends Exception {
 		}		
 	}
 	
-	
-	
 	public CosmException(String errorMessage) {		
 		super(errorMessage);
 	}
@@ -55,6 +53,21 @@ public class CosmException extends Exception {
 
     public Exception getException() {
         return this.exception;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("CosmException [statusLine=");
+        builder.append(this.statusLine);
+        builder.append(", title=");
+        builder.append(this.title);
+        builder.append(", errorMessage=");
+        builder.append(this.errorMessage);
+        builder.append(", exception=");
+        builder.append(this.exception);
+        builder.append("]");
+        return builder.toString();
     }
 
 }

@@ -1,5 +1,7 @@
 package Cosm;
 
+import java.util.Arrays;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -440,6 +442,70 @@ public class User {
 		this.createableRoles = new String[0];
 		this.state = null;
 	}
+
+
+
+
+
+
+
+
+
+
+
+
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("User [totalApiAccesCount=");
+        builder.append(totalApiAccesCount);
+        builder.append(", createableRoles=");
+        builder.append(Arrays.toString(createableRoles));
+        builder.append(", datastreamsCount=");
+        builder.append(datastreamsCount);
+        builder.append(", emailHash=");
+        builder.append(emailHash);
+        builder.append(", provisioningEnabled=");
+        builder.append(provisioningEnabled);
+        builder.append(", feedsCount=");
+        builder.append(feedsCount);
+        builder.append(", datastreamsAllowed=");
+        builder.append(datastreamsAllowed);
+        builder.append(", dailyApiAccessCount=");
+        builder.append(dailyApiAccessCount);
+        builder.append(", state=");
+        builder.append(state);
+        builder.append(", displayStats=");
+        builder.append(displayStats);
+        builder.append(", displayActivity=");
+        builder.append(displayActivity);
+        builder.append(", displayInformation=");
+        builder.append(displayInformation);
+        builder.append(", deliverEmail=");
+        builder.append(deliverEmail);
+        builder.append(", receiveForumNotifications=");
+        builder.append(receiveForumNotifications);
+        builder.append(", organisation=");
+        builder.append(organisation);
+        builder.append(", about=");
+        builder.append(about);
+        builder.append(", website=");
+        builder.append(website);
+        builder.append(", fullName=");
+        builder.append(fullName);
+        builder.append(", timeZone=");
+        builder.append(timeZone);
+        builder.append(", subscribedToMailings=");
+        builder.append(subscribedToMailings);
+        builder.append(", roles=");
+        builder.append(Arrays.toString(roles));
+        builder.append(", login=");
+        builder.append(login);
+        builder.append(", email=");
+        builder.append(email);
+        builder.append("]");
+        return builder.toString();
+    }
 	
 	
 	

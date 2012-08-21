@@ -23,6 +23,17 @@ public class Color {
 		this.green = green;
 	}
 	
-	
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("Color [red=");
+        builder.append(this.red);
+        builder.append(", blue=");
+        builder.append(this.blue);
+        builder.append(", green=");
+        builder.append(this.green);
+        builder.append("]");
+        return builder.toString();
+    }
 	
 }

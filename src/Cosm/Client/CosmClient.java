@@ -23,7 +23,6 @@ public class CosmClient {
 		this.client = new DefaultHttpClient();
 		this.authMethod = AuthMethod.apikey;
 		this.API_KEY = APIKEYS;
-		
 	}
 
 	public CosmClient(String username,String password) {

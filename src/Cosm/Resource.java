@@ -33,4 +33,15 @@ public class Resource {
 		return jo;
 	}
 	
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("Resource [feedId=");
+        builder.append(feedId);
+        builder.append(", datastreamId=");
+        builder.append(datastreamId);
+        builder.append("]");
+        return builder.toString();
+    }
+	
 }

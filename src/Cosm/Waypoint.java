@@ -22,5 +22,18 @@ public class Waypoint {
 	public void setLon(Double lon) {
 		this.lon = lon;
 	}
+	
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("Waypoint [at=");
+        builder.append(at);
+        builder.append(", lat=");
+        builder.append(lat);
+        builder.append(", lon=");
+        builder.append(lon);
+        builder.append("]");
+        return builder.toString();
+    }
 
 }

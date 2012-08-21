@@ -1,6 +1,8 @@
 package Cosm;
 
 
+import java.util.Arrays;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -26,9 +28,47 @@ public class Feed {
 	private String email;
 
 	@Override
-	public String toString() {
-		return this.title;
-	}
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("Feed [description=");
+        builder.append(this.description);
+        builder.append(", feed=");
+        builder.append(this.feed);
+        builder.append(", id=");
+        builder.append(this.id);
+        builder.append(", location=");
+        builder.append(this.location);
+        builder.append(", title=");
+        builder.append(this.title);
+        builder.append(", errors=");
+        builder.append(this.errors);
+        builder.append(", updated=");
+        builder.append(this.updated);
+        builder.append(", creator=");
+        builder.append(this.creator);
+        builder.append(", status=");
+        builder.append(this.status);
+        builder.append(", website=");
+        builder.append(this.website);
+        builder.append(", icon=");
+        builder.append(this.icon);
+        builder.append(", created=");
+        builder.append(this.created);
+        builder.append(", tags=");
+        builder.append(Arrays.toString(this.tags));
+        builder.append(", version=");
+        builder.append(this.version);
+        builder.append(", privateFeed=");
+        builder.append(this.privateFeed);
+        builder.append(", user=");
+        builder.append(this.user);
+        builder.append(", datastreams=");
+        builder.append(Arrays.toString(this.datastreams));
+        builder.append(", email=");
+        builder.append(this.email);
+        builder.append("]");
+        return builder.toString();
+    }
 	
 	
 	
